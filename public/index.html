@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts Book</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">ISTM-455 Final Project</p>
+        <h1>Contacts Book</h1>
+        <p class="lede">A minimal contacts manager with SQLite-backed CRUD operations.</p>
+      </section>
+
+      <section class="panel grid">
+        <form id="contact-form" class="card form-card">
+          <div class="card-title-row">
+            <h2 id="form-title">Add contact</h2>
+            <button type="button" id="reset-button" class="ghost">Reset</button>
+          </div>
+
+          <div class="field-grid">
+            <label>
+              First name
+              <input name="firstName" required />
+            </label>
+            <label>
+              Last name
+              <input name="lastName" required />
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" required />
+            </label>
+            <label>
+              Phone
+              <input name="phone" />
+            </label>
+            <label>
+              Company
+              <input name="company" />
+            </label>
+            <label class="full-width">
+              Notes
+              <textarea name="notes" rows="4"></textarea>
+            </label>
+          </div>
+
+          <button type="submit" class="primary">Save contact</button>
+          <p id="form-message" class="message" aria-live="polite"></p>
+        </form>
+
+        <section class="card list-card">
+          <div class="card-title-row">
+            <h2>Contacts</h2>
+            <span id="contact-count" class="count"></span>
+          </div>
+          <div id="contacts" class="contact-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="contact-template">
+      <article class="contact-item">
+        <div>
+          <h3></h3>
+          <p class="email"></p>
+          <p class="meta"></p>
+          <p class="notes"></p>
+        </div>
+        <div class="actions">
+          <button type="button" data-action="edit" class="ghost">Edit</button>
+          <button type="button" data-action="delete" class="danger">Delete</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
