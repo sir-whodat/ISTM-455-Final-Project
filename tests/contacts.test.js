@@ -33,6 +33,16 @@ describe('contacts api', () => {
     expect(response.body[0]).toHaveProperty('id');
   });
 
+  it('gets a single contact by id', async () => {
+    const response = await request(app).get('/api/contacts/1');
+
+    expect(response.status).toBe(200);
+    expect(response.body.id).toBe(1);
+    expect(response.body).toHaveProperty('firstName');
+    expect(response.body).toHaveProperty('lastName');
+    expect(response.body).toHaveProperty('email');
+  });
+
   it('creates a contact', async () => {
     const response = await request(app)
       .post('/api/contacts')
@@ -98,6 +108,40 @@ describe('contacts api', () => {
 
     expect(response.status).toBe(404);
   });
+
+  it('rejects duplicate email addresses on update', async () => {
+    // First, let's create a new contact to ensure we have a different contact
+    await request(app)
+      .post('/api/contacts')
+      .send({
+        firstName: 'Another',
+        lastName: 'Person',
+        email: 'another@example.com'
+      });
+
+    const response = await request(app)
+      .put('/api/contacts/1') // Try to update contact 1 with the newly created contact's email
+      .send({
+        firstName: 'Ava',
+        lastName: 'Turner',
+        email: 'another@example.com' 
+      });
+
+    expect(response.status).toBe(409);
+    expect(response.body.message).toBe('Email already exists');
+  });
+
+  it('rejects invalid input on update', async () => {
+    const response = await request(app)
+      .put('/api/contacts/1')
+      .send({ firstName: '', lastName: '', email: 'not-an-email' });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors).toContain('firstName is required');
+    expect(response.body.errors).toContain('lastName is required');
+    expect(response.body.errors).toContain('email must be a valid email address');
+  });
+
   it('deletes a contact', async () => {
     const response = await request(app).delete('/api/contacts/1');
 
@@ -105,6 +149,12 @@ describe('contacts api', () => {
 
     const missingResponse = await request(app).get('/api/contacts/1');
     expect(missingResponse.status).toBe(404);
+  });
+
+  it('returns 404 when deleting a non-existent contact', async () => {
+    const response = await request(app).delete('/api/contacts/9999');
+
+    expect(response.status).toBe(404);
   });
 
   it('rejects invalid input', async () => {
