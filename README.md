@@ -4,7 +4,7 @@ Minimal contacts-book app with CRUD operations, SQLite storage, a browser UI, au
 
 ## Stack
 
-- Node.js
+- Node.js ≥ 24 (required for the built-in `node:sqlite` module)
 - Express REST API
 - Vanilla frontend served by Express
 - SQLite database via Node's built-in `node:sqlite`
@@ -69,11 +69,19 @@ This copies the frontend files into `dist/public` for the production image.
 
 ## Docker
 
-Build and run with Compose:
+1. Generate the self-signed certificate if you haven't already:
 
-```bash
-docker compose up --build
-```
+   ```bash
+   npm run cert:generate
+   ```
+
+   This creates `certs/server.pem` which is mounted read-only into the container by Docker Compose.
+
+2. Build and run with Compose:
+
+   ```bash
+   docker compose up --build
+   ```
 
 The app is exposed on port `8443`.
 
@@ -91,4 +99,4 @@ The app is exposed on port `8443`.
 - `public/` browser UI assets
 - `tests/` Vitest coverage
 - `scripts/` build and certificate helpers
-- `certs/server.pem` combined private key and certificate# ISTM-455-Final-Project
+- `certs/server.pem` combined private key and certificate

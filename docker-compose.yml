@@ -9,6 +9,7 @@ services:
       SSL_PEM_PATH: /app/certs/server.pem
     volumes:
       - contacts-data:/app/data
+      - ./certs:/app/certs:ro
 
 volumes:
   contacts-data:

@@ -124,7 +124,7 @@ describe('contacts api', () => {
       .send({
         firstName: 'Ava',
         lastName: 'Turner',
-        email: 'another@example.com' 
+        email: 'another@example.com'
       });
 
     expect(response.status).toBe(409);

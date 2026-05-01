@@ -98,6 +98,10 @@ function createApp(options = {}) {
     return response.status(204).send();
   });
 
+  app.use('/api', (error, request, response, next) => {
+    response.status(500).json({ message: error.message || 'Internal server error' });
+  });
+
   if (staticDir) {
     app.use(express.static(staticDir));
 

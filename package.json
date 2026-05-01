@@ -4,6 +4,9 @@
   "private": true,
   "type": "commonjs",
   "description": "Minimal contacts book app with Express, SQLite, and Vitest.",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "node src/server.js",

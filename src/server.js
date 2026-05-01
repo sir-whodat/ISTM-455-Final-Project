@@ -21,8 +21,17 @@ function loadPemOptions(pemPath) {
 function startServer() {
   const port = Number(process.env.PORT || 8443);
   const pemPath = process.env.SSL_PEM_PATH || path.join(__dirname, '..', 'certs', 'server.pem');
+
+  let tlsOptions;
+  try {
+    tlsOptions = loadPemOptions(pemPath);
+  } catch (error) {
+    console.error(`Error: could not load TLS certificate from ${pemPath}`);
+    console.error('Run "npm run cert:generate" to create a self-signed certificate, then retry.');
+    process.exit(1);
+  }
+
   const { app } = createApp();
-  const tlsOptions = loadPemOptions(pemPath);
 
   const server = https.createServer(tlsOptions, app);
 

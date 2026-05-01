@@ -20,8 +20,7 @@ COPY --from=build /app/src ./src
 COPY --from=build /app/public ./public
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/scripts ./scripts
-COPY --from=build /app/certs ./certs
-RUN mkdir -p /app/data && chown -R node:node /app/data
+RUN mkdir -p /app/data /app/certs && chown -R node:node /app/data /app/certs
 
 USER node
 
