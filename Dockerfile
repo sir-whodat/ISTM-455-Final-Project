@@ -1,5 +1,4 @@
-FROM node:24-slim AS deps
-WORKDIR /app
+,WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
@@ -21,6 +20,9 @@ COPY --from=build /app/public ./public
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/certs ./certs
+RUN mkdir -p /app/data && chown -R node:node /app/data
+
+USER node
 
 EXPOSE 8443
 CMD ["node", "src/server.js"]
