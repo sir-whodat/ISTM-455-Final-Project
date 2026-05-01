@@ -1,4 +1,5 @@
-,WORKDIR /app
+FROM node:24-slim AS deps
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
