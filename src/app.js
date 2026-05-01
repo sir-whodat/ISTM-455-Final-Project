@@ -99,7 +99,12 @@ function createApp(options = {}) {
   });
 
   app.use('/api', (error, request, response, _next) => {
-    response.status(500).json({ message: error.message || 'Internal server error' });
+    console.error(error);
+
+    const isProduction = process.env.NODE_ENV === 'production';
+    const message = isProduction ? 'Internal server error' : (error.message || 'Internal server error');
+
+    response.status(500).json({ message });
   });
 
   if (staticDir) {

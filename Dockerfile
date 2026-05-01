@@ -11,11 +11,17 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . ./
 RUN npm run build
 
+FROM node:24-slim AS prod-deps
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
 FROM node:24-slim AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/src ./src
 COPY --from=build /app/public ./public
 COPY --from=build /app/dist ./dist
