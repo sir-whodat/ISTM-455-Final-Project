@@ -98,7 +98,7 @@ function createApp(options = {}) {
     return response.status(204).send();
   });
 
-  app.use('/api', (error, request, response, next) => {
+  app.use('/api', (error, request, response, _next) => {
     response.status(500).json({ message: error.message || 'Internal server error' });
   });
 
