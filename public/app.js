@@ -75,6 +75,10 @@ function renderContacts() {
         return;
       }
 
+      if (editingId === contact.id) {
+        resetForm();
+      }
+
       await loadContacts();
       setMessage('Contact deleted.');
     });
@@ -108,7 +112,7 @@ contactForm.addEventListener('submit', async (event) => {
 
   if (!response.ok) {
     const payload = await response.json().catch(() => ({}));
-    setMessage(payload.errors ? payload.errors.join(', ') : 'Unable to save contact.', true);
+    setMessage(payload.errors ? payload.errors.join(', ') : (payload.message || 'Unable to save contact.'), true);
     return;
   }
 

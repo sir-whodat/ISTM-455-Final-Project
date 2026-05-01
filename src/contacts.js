@@ -13,12 +13,12 @@ const sampleContacts = [
 
 function normalizeContact(input = {}) {
   return {
-    firstName: String(input.firstName || '').trim(),
-    lastName: String(input.lastName || '').trim(),
-    email: String(input.email || '').trim(),
-    phone: String(input.phone || '').trim(),
-    company: String(input.company || '').trim(),
-    notes: String(input.notes || '').trim()
+    firstName: String(input.firstName ?? '').trim(),
+    lastName: String(input.lastName ?? '').trim(),
+    email: String(input.email ?? '').trim(),
+    phone: String(input.phone ?? '').trim(),
+    company: String(input.company ?? '').trim(),
+    notes: String(input.notes ?? '').trim()
   };
 }
 

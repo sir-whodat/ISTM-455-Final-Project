@@ -157,6 +157,22 @@ describe('contacts api', () => {
     expect(response.status).toBe(404);
   });
 
+  it('retains falsy but valid values like 0 for phone or company', async () => {
+    const response = await request(app)
+      .post('/api/contacts')
+      .send({
+        firstName: 'Zero',
+        lastName: 'Cool',
+        email: 'zero.cool@example.com',
+        phone: 0,
+        company: 0
+      });
+
+    expect(response.status).toBe(201);
+    expect(response.body.phone).toBe('0');
+    expect(response.body.company).toBe('0');
+  });
+
   it('rejects invalid input', async () => {
     const response = await request(app)
       .post('/api/contacts')
