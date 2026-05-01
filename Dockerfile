@@ -26,4 +26,5 @@ RUN mkdir -p /app/data && chown -R node:node /app/data
 USER node
 
 EXPOSE 8443
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD node -e "const https=require('node:https'); const req=https.get({host:'127.0.0.1',port:8443,path:'/',rejectUnauthorized:false},(res)=>{res.resume(); process.exit(res.statusCode===200?0:1);}); req.on('error',()=>process.exit(1)); req.setTimeout(4000,()=>{req.destroy(); process.exit(1);});"
 CMD ["node", "src/server.js"]
