@@ -1,0 +1,25 @@
+{
+  "name": "istm-455-final-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Minimal contacts book app with Express, SQLite, and Vitest.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "build": "node scripts/build.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "cert:generate": "bash scripts/generate-cert.sh"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4",
+    "vitest": "^3.1.0"
+  }
+}

@@ -1,0 +1,15 @@
+services:
+  contacts-book:
+    build: .
+    ports:
+      - "8443:8443"
+    environment:
+      PORT: 8443
+      DATABASE_FILE: /app/data/contacts.db
+      SSL_PEM_PATH: /app/certs/server.pem
+    volumes:
+      - contacts-data:/app/data
+      - ./certs:/app/certs:ro
+
+volumes:
+  contacts-data:
