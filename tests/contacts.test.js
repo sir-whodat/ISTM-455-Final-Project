@@ -151,6 +151,20 @@ describe('contacts api', () => {
     expect(missingResponse.status).toBe(404);
   });
 
+  it('does not reseed after all contacts are deleted and the app restarts', async () => {
+    const contactsResponse = await request(app).get('/api/contacts');
+
+    for (const contact of contactsResponse.body) {
+      await request(app).delete(`/api/contacts/${contact.id}`);
+    }
+
+    database.close();
+    ({ app, database } = createApp({ dbFilePath: databasePath, staticDir: null }));
+
+    const restartResponse = await request(app).get('/api/contacts');
+    expect(restartResponse.body).toHaveLength(0);
+  });
+
   it('returns 404 when deleting a non-existent contact', async () => {
     const response = await request(app).delete('/api/contacts/9999');
 

@@ -59,6 +59,7 @@ function insertSeedContacts(database) {
 
 function createDatabase(dbFilePath) {
   const resolvedPath = resolveDatabasePath(dbFilePath);
+  const shouldSeed = resolvedPath === ':memory:' || !fs.existsSync(resolvedPath);
 
   if (resolvedPath !== ':memory:') {
     fs.mkdirSync(path.dirname(resolvedPath), { recursive: true });
@@ -81,8 +82,7 @@ function createDatabase(dbFilePath) {
     )
   `);
 
-  const countRow = database.prepare('SELECT COUNT(*) AS count FROM contacts').get();
-  if (countRow.count === 0) {
+  if (shouldSeed) {
     insertSeedContacts(database);
   }
 
